@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "852491001344",
+    "project_id": "horsian-de3cc",
+    "storage_bucket": "horsian-de3cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852491001344:android:85ecae8e56bd5a2e6342e5",
+        "android_client_info": {
+          "package_name": "com.example.horsian"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTGlZZR7puENLP4C2YEzMM4C7zkAWmCpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
