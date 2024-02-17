@@ -47,7 +47,7 @@ export 'package:horsian/Functionality/homeScreenFunctions.dart';
 export 'package:horsian/Functionality/profileScreenFunctions.dart';
 export 'package:horsian/Functionality/addressScreenFunctions.dart';
 export 'package:horsian/Functionality/rootClass.dart';
-export 'package:horsian/Functionality/BrandScreenFunctions.dart';
+export 'package:horsian/Functionality/brandScreenFunctions.dart';
 
 
 

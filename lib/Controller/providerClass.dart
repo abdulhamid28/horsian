@@ -1,6 +1,7 @@
 import 'package:horsian/Resources/exports.dart';
 
 class CustomProviderClass extends ChangeNotifier{
+  //TODO: ChangeScreen Controller for base Screen
   int currentScreen=0;
   int getScreen()=> currentScreen;
   changeScreen(int screenNumber){
@@ -8,12 +9,11 @@ class CustomProviderClass extends ChangeNotifier{
     notifyListeners();
   }
 
-  // int productCount =0;
-  // int getProductCount()=> productCount;
-  // changeProduct(int productNumber){
-  //   productCount = productNumber;
-  //   notifyListeners();
-  // }
-
-
+  List<productContainerData> allProducts=[];
+  List getAllProduct()=>allProducts;
+  setProduct(List<productContainerData> products) {
+    allProducts = products;
+  }
 }
+
+

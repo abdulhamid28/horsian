@@ -97,3 +97,30 @@ class ShimmerWidget extends StatelessWidget {
     );
   }
 }
+
+class ShimmerLoader extends StatelessWidget {
+  String text;
+  ShimmerLoader({required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Shimmer(
+        child: Container(
+          height: 120,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+              color: Colors.blueGrey.shade100,
+              borderRadius: BorderRadius.circular(10)),
+          child: Center(
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: 'Axiforma', color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
