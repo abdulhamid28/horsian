@@ -2,15 +2,14 @@ import 'package:horsian/Resources/exports.dart';
 import 'package:horsian/Widgets/likeButton.dart';
 class TrendingWidget extends StatefulWidget {
   Size size ;
-  TrendingWidget({super.key,  required this.size});
-
+  ProductContainerData productContainerData ;
+  TrendingWidget({super.key , required this.size, required this.productContainerData,});
   @override
   State<TrendingWidget> createState() => _TrendingWidgetState();
 }
 
 class _TrendingWidgetState extends State<TrendingWidget> {
   bool isLiked =false;
-
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -22,8 +21,12 @@ class _TrendingWidgetState extends State<TrendingWidget> {
             elevation: 3,
             borderRadius: BorderRadius.circular(20),
             child: InkWell(
-              onTap: (){},
+              onTap: (){
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=>ProductScreen(productContainerData: widget.productContainerData,),));
+              },
               splashColor: KColor9,
+              borderRadius: BorderRadius.circular(20),
               child: Container(
                 width: widget.size.width - 60,
                 decoration: BoxDecoration(
@@ -32,12 +35,47 @@ class _TrendingWidgetState extends State<TrendingWidget> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20))),
-                        child: Image.asset('asset/images/nike shoe 1.png'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20))),
+                          child: Image.network(widget.productContainerData.imageBanner,
+                            loadingBuilder: (context, child,chunk) {
+                              if (chunk != null) return Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.black,
+                                    strokeWidth: 6),
+                              );
+                              else return child;
+                            },
+                            errorBuilder: (context, object, stackTree) {
+                              return Padding(padding: const EdgeInsets.all(10.0),
+                                child: Shimmer(
+                                  child:
+                                  Container(
+                                    height: 120,
+                                    width: double.maxFinite,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade100,
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Text('unAvailable',
+                                        style: TextStyle(
+                                            fontFamily: 'Axiforma',
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                     Expanded(
@@ -61,13 +99,13 @@ class _TrendingWidgetState extends State<TrendingWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Nike Spectre ',
+                                      Text(widget.productContainerData.productName,
                                         style:
                                         GoogleFonts.goblinOne(),
                                       ),
                                       Row(
                                         children: [
-                                          Text('4.6', style:
+                                          Text('${widget.productContainerData.productRating}', style:
                                           GoogleFonts.goblinOne(
                                               fontSize:10
                                           ),),
@@ -78,10 +116,11 @@ class _TrendingWidgetState extends State<TrendingWidget> {
                                           fontSize: 10,
                                           decoration: TextDecoration.underline,
                                           color: Colors.grey
-                                      ),)
-
-                                    ],
-                                  ))
+                                      ),
+                                      )
+                                    ]
+                                  ),
+                              )
                             ],
                           ),
                         ),
@@ -94,10 +133,10 @@ class _TrendingWidgetState extends State<TrendingWidget> {
           ),
         ),
       ),
-      Positioned(top: 0, left: 0, child: TrendingTag(rank: 1))
+      Positioned(top: 0, left: 0, child: TrendingTag(brand: widget.productContainerData.brandName))
     ]);
   }
-  Widget TrendingTag({required int rank}) {
+  Widget TrendingTag({required String brand}) {
     return ClipPath(
       clipper: ClipperClass(height: 70),
       child: Shimmer(
@@ -120,7 +159,7 @@ class _TrendingWidgetState extends State<TrendingWidget> {
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Image.asset(
-                        'asset/images/nike_logo.png',
+                        (brand == 'Brand_Adidas')? 'asset/images/adidas_logo.png':'asset/images/nike_logo.png' ,
                         color: Colors.white,
                       ),
                     )),

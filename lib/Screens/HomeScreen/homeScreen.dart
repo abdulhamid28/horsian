@@ -77,13 +77,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: SizedBox(
                 height: 180,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: 2,
-                    itemBuilder: (context, index) {
-                      return TrendingWidget(size: size,);
-                    }),
+                child: FutureBuilder(
+                  future: HomeScreenFunctionality.getTrendingProducts(),
+                  builder: ( context , snapshot){
+                    if(snapshot.hasData)return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            child: TrendingWidget(
+                              size: size,productContainerData: snapshot.data![index],
+                            ),
+                          );
+                        });
+                    else return TrendingWidgetShimmer();
+                  }
+                ),
               ),
             ),
             Padding(
@@ -130,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:
                             const EdgeInsets.fromLTRB(40, 35, 40, 35),
                             child: Image.asset(
-                              HomeScreenFunctionality.popularBrandList[index],
+                              HomeScreenFunctionality.popularBrandNameList[index].brandLogo,
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -151,6 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
 
 
 

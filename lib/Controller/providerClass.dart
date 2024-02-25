@@ -9,11 +9,12 @@ class CustomProviderClass extends ChangeNotifier{
     notifyListeners();
   }
 
-  List<productContainerData> allProducts=[];
+  List<ProductContainerData> allProducts=[];
   List getAllProduct()=>allProducts;
-  setProduct(List<productContainerData> products) {
+  setProduct(List<ProductContainerData> products) {
     allProducts = products;
   }
+
 }
 
 

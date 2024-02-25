@@ -12,7 +12,7 @@ export 'package:google_sign_in/google_sign_in.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:provider/provider.dart';
-
+export 'package:video_player/video_player.dart';
 export 'package:animated_text_kit/animated_text_kit.dart';
 export 'package:shimmer_animation/shimmer_animation.dart';
 export 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -37,6 +37,7 @@ export 'package:horsian/Screens/ProfileScreen/personelScreen.dart';
 export 'package:horsian/Screens/ProfileScreen/ordersScreen.dart';
 export 'package:horsian/Screens/BrandScreen/brandScreen.dart';
 export 'package:horsian/Functionality/baseScreenFunctions.dart';
+export 'package:horsian/Screens/ProductScreen/productScreen.dart';
 
 
 //TODO: Functionalities related libraries
@@ -65,6 +66,8 @@ export 'package:horsian/Widgets/shimmerWidget.dart';
 export 'package:horsian/Widgets/clipperClass.dart';
 export 'package:horsian/Widgets/trendingWidget.dart';
 export 'package:horsian/Widgets/likeButton.dart';
+export 'package:horsian/Widgets/trendingWidgetShimmer.dart';
+
 
 
 
