@@ -1,5 +1,4 @@
 import 'package:horsian/Resources/exports.dart';
-import 'package:horsian/Widgets/likeButton.dart';
 class TrendingWidget extends StatefulWidget {
   Size size ;
   ProductContainerData productContainerData ;
@@ -9,7 +8,6 @@ class TrendingWidget extends StatefulWidget {
 }
 
 class _TrendingWidgetState extends State<TrendingWidget> {
-  bool isLiked =false;
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
@@ -22,8 +20,14 @@ class _TrendingWidgetState extends State<TrendingWidget> {
             borderRadius: BorderRadius.circular(20),
             child: InkWell(
               onTap: (){
+                ProductScreenRequired  productScreenReq = ProductScreenRequired(
+                    productName: widget.productContainerData.productName,
+                    categoryType: widget.productContainerData.categoryType,
+                    brandName: widget.productContainerData.brandName);
+                
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context)=>ProductScreen(productContainerData: widget.productContainerData,),));
+                    MaterialPageRoute(builder: (context)=>ProductScreen(
+                      productScreenReq:  productScreenReq),));
               },
               splashColor: KColor9,
               borderRadius: BorderRadius.circular(20),
@@ -89,39 +93,30 @@ class _TrendingWidgetState extends State<TrendingWidget> {
                               bottomRight: Radius.circular(20),
                             ),
                           ),
-                          child: Stack(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Positioned(
-                                  right: 3,
-                                  child:LikeButtonWidget(isLiked: isLiked,) ),
-                              Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(widget.productContainerData.productName,
-                                        style:
-                                        GoogleFonts.goblinOne(),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text('${widget.productContainerData.productRating}', style:
-                                          GoogleFonts.goblinOne(
-                                              fontSize:10
-                                          ),),
-                                          Icon(IconlyBold.star, color: Color(0xffFDCC0D))
-                                        ],
-                                      ),
-                                      Text('More Details', style: GoogleFonts.goblinOne(
-                                          fontSize: 10,
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.grey
-                                      ),
-                                      )
-                                    ]
-                                  ),
+                              Text(widget.productContainerData.productName,
+                                style:
+                                GoogleFonts.goblinOne(),
+                              ),
+                              Row(
+                                children: [
+                                  Text('${widget.productContainerData.productRating}', style:
+                                  GoogleFonts.goblinOne(
+                                      fontSize:10
+                                  ),),
+                                  Icon(IconlyBold.star, color: Color(0xffFDCC0D))
+                                ],
+                              ),
+                              Text('More Details', style: GoogleFonts.goblinOne(
+                                  fontSize: 10,
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.grey
+                              ),
                               )
-                            ],
+                            ]
                           ),
                         ),
                       ),

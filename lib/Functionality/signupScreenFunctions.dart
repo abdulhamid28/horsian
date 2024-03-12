@@ -25,13 +25,15 @@ class SignupScreenFunctionality{
     }
   }
 
-  static Future<bool> StoreUserDataToFirebase({ required UserCredential userCredential, required String fullname , required String password}) async {
+  static Future<bool> StoreUserDataToFirebase({ required UserCredential userCredential, required String  fullname , required String password}) async {
     try{
       // TODO : storing user data to firebase database
       DocumentReference  ReferenceToDocumentId =
       firebaseFirestore.collection('UsersCollection').doc(userCredential.user!.email) ;
+
       await ReferenceToDocumentId.set(
       {
+
         'User_ID' : userCredential.user!.uid,
         'User_Name' : fullname ,
         'User_Email' : userCredential.user!.email,
@@ -39,8 +41,11 @@ class SignupScreenFunctionality{
         'List_Address' : [],
         'User_Points' : 0,
         'Order_Count' : 0 ,
-        'Phone_Number' : 0,
-        'User_Gender' : 'Not Mentioned'
+        'Phone_Number': 0,
+        'User_Gender' : 'Not Mentioned',
+        'User_Cart': [],
+        'Order_Current':[],
+        'Order_History' : []
       }
     );
       //RedirectingFunctionality.setDataInLocalTrue();
@@ -48,7 +53,7 @@ class SignupScreenFunctionality{
       Toast.show('Signup successful !', backgroundColor: KColor9 ,duration: 2);
     return true ;
     } on FirebaseException {
-      Toast.show('User data not stored!', backgroundColor: KColor9 ,duration: 2);
+     // Toast.show('User data not stored!', backgroundColor: KColor9 ,duration: 2);
       return false;
     }
   }

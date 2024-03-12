@@ -87,7 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             child: TrendingWidget(
-                              size: size,productContainerData: snapshot.data![index],
+                              size: size,
+                              productContainerData: snapshot.data![index],
                             ),
                           );
                         });
@@ -129,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(25),
                         onTap: () {
                           final  providerValue = context.read<CustomProviderClass>();
-                          providerValue.changeScreen(index+5);
+                          providerValue.changeScreen(index+4);
                         },
                         splashColor: KColor9,
                         child: Container(

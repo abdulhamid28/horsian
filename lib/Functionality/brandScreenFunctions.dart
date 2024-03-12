@@ -33,9 +33,9 @@ class BrandScreenFunctionality {
           productName: value['Product_Name'],
           colorCount: inner.docs.length,
           categoryType: listOfCategory[i].categoryType,
-          productDescription1: value['Product_Description_H1'] ,
-          productDescription2: value['Product_Description_H2'],
-          productDescriptionImage: value['Product_Description_Image'],
+          // productDescription1: value['Product_Description_H1'] ,
+          // productDescription2: value['Product_Description_H2'],
+          // productDescriptionImage: value['Product_Description_Image'],
           brandName: brandName
           )
       );
@@ -70,26 +70,27 @@ class ShoeCategory {
 }
 
 class ProductContainerData {
-  String productName;
-  String imageBanner;
-  int productPrice;
-  double productRating;
-  int colorCount;
-  String categoryType;
-  String productDescription1;
-  String productDescription2;
-  String productDescriptionImage;
+  String productName;   //okay
+  String imageBanner;   // okay
+  int productPrice;    // okay
+  double productRating;  //okay
+  int colorCount;     //okay
+  String categoryType;   //okay
+  // String productDescription1;   //no
+  // String productDescription2;   //no
+  // String productDescriptionImage; // no
   String brandName;
   ProductContainerData(
-      {required this.colorCount,
+      {
+      required this.colorCount,
       required this.productRating,
       required this.productPrice,
       required this.productName,
       required this.categoryType,
       required this.imageBanner,
-      required this.productDescription1,
-      required this.productDescription2,
-      required this.productDescriptionImage,
+      // required this.productDescription1,
+      // required this.productDescription2,
+      // required this.productDescriptionImage,
       required this.brandName
       });
 }

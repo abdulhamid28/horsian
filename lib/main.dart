@@ -1,14 +1,14 @@
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:horsian/Resources/exports.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Platform.isAndroid ? await Firebase.initializeApp(
-      options: FirebaseOptions(
-        apiKey: "AIzaSyCTGlZZR7puENLP4C2YEzMM4C7zkAWmCpw",
-        appId: "1:852491001344:android:85ecae8e56bd5a2e6342e5",
-        messagingSenderId: "852491001344",
-        projectId: "horsian-de3cc")) : await Firebase.initializeApp()  ;
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.white,));
+  await dotenv.load();
+  Stripe.publishableKey= dotenv.env['STRIPE_PUBLIC_KEY']! ;
+  Stripe.instance.applySettings();
+  Platform.isAndroid ? await Firebase.initializeApp(options: firebaseOptions) : await Firebase.initializeApp()  ;
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.white,));
   runApp(
   ChangeNotifierProvider(
       create: (context)=> CustomProviderClass(),
@@ -30,8 +30,8 @@ class Horsian extends StatelessWidget {
        //ProfileScreen()
        //AddressScreen(),
        //ResetPasswordScreen(),
-       //SplashScreen(),
-       BaseScreen(),
+       (firebaseAuth.currentUser!=null )? BaseScreen() :SplashScreen(),
+       //BaseScreen(),
        // SignupScreen() ,
        // LoginScreen(),
        //OnboardingScreen(),

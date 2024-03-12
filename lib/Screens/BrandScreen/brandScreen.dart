@@ -19,24 +19,25 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
 
   FocusNode searchNode = FocusNode();
   TextEditingController searchController = TextEditingController();
-  late VideoPlayerController videoPlayerController ;
+  //late VideoPlayerController videoPlayerController ;
   late AnimationController animationController;
 
   List<ProductContainerData> searchProduct = [];
-  Display isBannerNumber = Display.allProduct;
+  Display isBannerNumber = Display.allProduct; //0
+
 
   @override
   void initState() {
     animationController = AnimationController(
         vsync: this, upperBound: 0.3, duration: Duration(milliseconds: 100));
     super.initState();
-    videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse(
-            (widget.brand=='Brand_Adidas') ? HomeScreenFunctionality.popularBrandNameList[1].brandVideoLink:
-            HomeScreenFunctionality.popularBrandNameList[0].brandVideoLink  ))
-      ..initialize().then((value) {setState(() {});});
-    videoPlayerController.play();
-    videoPlayerController.setVolume(0);
+    // videoPlayerController = VideoPlayerController.networkUrl(
+    //     Uri.parse(
+    //         (widget.brand=='Brand_Adidas') ? HomeScreenFunctionality.popularBrandNameList[1].brandVideoLink:
+    //         HomeScreenFunctionality.popularBrandNameList[0].brandVideoLink  ))
+    //   ..initialize().then((value) {setState(() {});});
+    // videoPlayerController.play();
+    // videoPlayerController.setVolume(0);
   }
 
   callFunction() => animationController.forward(from: 0);
@@ -46,7 +47,7 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
     searchController.dispose();
     searchNode.dispose();
     animationController.dispose();
-    videoPlayerController.dispose();
+    //videoPlayerController.dispose();
     super.dispose();
   }
 
@@ -60,102 +61,11 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
             Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20,top: 60),
                   child: Container(
                     decoration: BoxDecoration(),
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 85,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Image.asset(
-                                  (widget.brand == 'Brand_Nike')
-                                      ? 'asset/images/nike_logo.png'
-                                      : 'asset/images/adidas_logo_symbol.png',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Image.asset(
-                                  (widget.brand == 'Brand_Nike')
-                                      ? 'asset/images/nike name.png'
-                                      : 'asset/images/adidas_logo_text.png',
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    final cont =
-                                        context.read<CustomProviderClass>();
-                                    cont.changeScreen(4);
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 15.0),
-                                    child: Stack(children: [
-                                      Center(
-                                        child: Container(
-                                          color: Colors.white,
-                                          child: Icon(
-                                              bottomBarWidgetList[4].bottomBarIcon,
-                                              size: 45,
-                                              color: KColor5),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 30,
-                                        left: 35,
-                                        child: Material(
-                                          borderRadius: BorderRadius.circular(25),
-                                          elevation: 5,
-                                          child: Container(
-                                              height: 25,
-                                              width: 25,
-                                              decoration: BoxDecoration(
-                                                  color: KColor9,
-                                                  borderRadius:
-                                                      BorderRadius.circular(25),
-                                                  border: Border.all()),
-                                              child: Center(
-                                                child: StreamBuilder(
-                                                    stream: BaseScreenFunctionality
-                                                        .getStreamOfCartScreenCount(),
-                                                    builder: (context, snapshot) {
-                                                      if (snapshot.hasData) {
-                                                        return Text(
-                                                          snapshot
-                                                              .data!['User_Cart']
-                                                              .length
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 11,
-                                                          ),
-                                                        );
-                                                      } else
-                                                        return CircularProgressIndicator(
-                                                          color: KColor9,
-                                                          strokeWidth: 5,
-                                                        );
-
-                                                    }),
-                                              )),
-                                        ),
-                                      )
-                                    ]),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.only(right: 15.0),
                           child: Row(
@@ -167,14 +77,14 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(),
+                                    border: (searchNode.hasFocus) ? Border.all(color:  KColor9 , width: 2) : Border.all(),
                                   ),
                                   child: Row(
                                     children: [
                                       Expanded(
                                         flex: 2,
-                                        child: Icon(IconlyBroken.search,
-                                            color: KColor5),
+                                        child: Icon(IconlyLight.search,
+                                            color: KColor9),
                                       ),
                                       Expanded(
                                         flex: 8,
@@ -211,7 +121,7 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                                         borderRadius: (BorderRadius.circular(20)),
                                         color: KColor9),
                                     child: Icon(
-                                      IconlyBold.filter_2,
+                                      IconlyBold.filter,
                                       color: Colors.white,
                                     ),
                                   ),
@@ -233,27 +143,27 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric( horizontal:  20.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: GestureDetector(
-                            onTap: (){videoPlayerController.initialize();
-                              videoPlayerController.play();
-                              },
-                            child: SizedBox(
-                               height: 500,
-                               width: double.maxFinite,
-                              child: (!videoPlayerController.value.isInitialized) ?
-                                Image.asset(
-                                    (widget.brand== 'Brand_Nike')?
-                                    'asset/images/nike video image.png': 'asset/images/adidas video image.png',
-                                    fit: BoxFit.fill) :
-                                VideoPlayer(videoPlayerController),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric( horizontal:  0.0),
+                      //   child: ClipRRect(
+                      //    // borderRadius: BorderRadius.circular(20),
+                      //     child: GestureDetector(
+                      //       onTap: (){videoPlayerController.initialize();
+                      //         videoPlayerController.play();
+                      //         },
+                      //       child: SizedBox(
+                      //          height: 500,
+                      //          width: double.maxFinite,
+                      //         child: (!videoPlayerController.value.isInitialized) ?
+                      //           Image.asset(
+                      //               (widget.brand== 'Brand_Nike')?
+                      //               'asset/images/nike video image.png': 'asset/images/adidas video image.png',
+                      //               fit: BoxFit.fill) :
+                      //           VideoPlayer(videoPlayerController),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                         child: Text(
@@ -307,12 +217,14 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                                         width: size.width - 80,
                                         decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(20),
-                                            // color: Colors.white,
                                             border: (displayValue == isBannerNumber)
                                                 ? Border(
                                                     bottom: BorderSide(
-                                                        width: 5, color: KColor5))
-                                                : null),
+                                                        width: 5, color: KColor5,
+                                                    ),
+                                            )
+                                                : null
+                                        ),
                                         child: Stack(
                                           children: [
                                             Positioned.fill(
@@ -334,8 +246,7 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                                                 textAlign: TextAlign.end,
                                                 style: GoogleFonts.anton(
                                                   fontSize: 60,
-                                                  color:
-                                                      Colors.black.withOpacity(0.3),
+                                                  color: Colors.black.withOpacity(0.3),
                                                 ),
                                               ),
                                             ),
@@ -350,9 +261,7 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                           ),
                         ),
                       ),
-                      (isBannerNumber == Display.allProduct ||
-                              isBannerNumber == Display.search)
-                          ? // 999 all product  1000 search
+                      (isBannerNumber == Display.allProduct || isBannerNumber == Display.search) ? // 999 all product  1000 search
                           (isBannerNumber == Display.allProduct)
                               ? StreamerContainer(brandName: widget.brand)
                               : SearchBuilder()
@@ -368,7 +277,7 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
     );
   }
 
-  Padding SearchBuilder() {
+  Widget SearchBuilder() {
     return Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Column(
@@ -411,114 +320,111 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                             child: InkWell(
                               borderRadius:
                               BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ProductScreen(
+                                    productScreenReq: ProductScreenRequired(
+                                        productName: searchProduct[index].productName,
+                                        categoryType: searchProduct[index].categoryType,
+                                        brandName: searchProduct[index].brandName),
+                                ),
+                                ),
+                                );
+                              },
                               splashColor: KColor9,
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius:
                                     BorderRadius.circular(20)),
-                                child: Stack(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Positioned.fill(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Image.network(
-                                              searchProduct[index].imageBanner,
-                                              fit: BoxFit.fill,
-                                              frameBuilder: (context, child,val, d){
-                                                if (val == null) return ShimmerLoader(text: 'loading..');
-                                                else return child;
-                                              },
-                                              loadingBuilder: (context, child,chunk) {
-                                                if (chunk != null) return ShimmerLoader(text: 'loading..');
-                                                else return child;
-                                              },
-                                              errorBuilder: (context, object, stackTree) {
-                                                return Padding(padding: const EdgeInsets.all(10.0),
-                                                  child: Shimmer(
-                                                    child:
-                                                    Container(
-                                                      height: 120,
-                                                      width: double.maxFinite,
-                                                      decoration: BoxDecoration(
-                                                          color: Colors.blueGrey.shade100,
-                                                          borderRadius:
-                                                          BorderRadius.circular(10),
-                                                      ),
-                                                      child: Center(
-                                                        child: Text('unAvailable',
-                                                          style: TextStyle(
-                                                              fontFamily: 'Axiforma',
-                                                              color: Colors.white),
-                                                        ),
-                                                      ),
-                                                    ),
+                                    Expanded(
+                                      child: Image.network(
+                                        searchProduct[index].imageBanner,
+                                        fit: BoxFit.fill,
+                                        frameBuilder: (context, child,val, d){
+                                          if (val == null) return ShimmerLoader(text: 'loading..');
+                                          else return child;
+                                        },
+                                        loadingBuilder: (context, child,chunk) {
+                                          if (chunk != null) return ShimmerLoader(text: 'loading..');
+                                          else return child;
+                                        },
+                                        errorBuilder: (context, object, stackTree) {
+                                          return Padding(padding: const EdgeInsets.all(10.0),
+                                            child: Shimmer(
+                                              child:
+                                              Container(
+                                                height: 120,
+                                                width: double.maxFinite,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.blueGrey.shade100,
+                                                    borderRadius:
+                                                    BorderRadius.circular(10),
+                                                ),
+                                                child: Center(
+                                                  child: Text('unAvailable',
+                                                    style: TextStyle(
+                                                        fontFamily: 'Axiforma',
+                                                        color: Colors.white),
                                                   ),
-                                                );
-                                              },
+                                                ),
+                                              ),
                                             ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            searchProduct[index].productName + ' ' + 'Shoes',
+                                            style: TextStyle(
+                                                color: KColor9,
+                                                fontFamily: 'Axiforma',
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          Expanded(
-                                            child: Column(
+                                          Text(
+                                            'Rs.' + searchProduct[index].productPrice.toString(),
+                                            style: TextStyle(
+                                                color: KColor9,
+                                                fontFamily: 'Axiforma',
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
-                                                Text(
-                                                  searchProduct[index].productName + ' ' + 'Shoes',
-                                                  style: TextStyle(
-                                                      color: KColor9,
-                                                      fontFamily: 'Axiforma',
-                                                      fontWeight: FontWeight.bold),
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                        IconlyBold.star,
+                                                        color: Color(0xffFDCC0D)),
+                                                    Text(
+                                                      '4.6',
+                                                      style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 14),
+                                                    )
+                                                  ],
                                                 ),
                                                 Text(
-                                                  'Rs.' + searchProduct[index].productPrice.toString(),
-                                                  style: TextStyle(
-                                                      color: KColor9,
-                                                      fontFamily: 'Axiforma',
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 5),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                              IconlyBold.star,
-                                                              color: Color(0xffFDCC0D)),
-                                                          Text(
-                                                            '4.6',
-                                                            style: TextStyle(
-                                                                fontWeight: FontWeight.w600,
-                                                                fontSize: 14),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      Text(
-                                                        '+' + searchProduct[index].colorCount.toString() + ' ' + 'colors',
-                                                        style:
-                                                        TextStyle(
-                                                          color: KColor8,
-                                                          //fontFamily: 'Axiforma',
-                                                          // fontWeight: FontWeight.bold
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  '+' + searchProduct[index].colorCount.toString() + ' ' + 'colors',
+                                                  style:
+                                                  TextStyle(
+                                                    color: KColor8,
+                                                    //fontFamily: 'Axiforma',
+                                                    // fontWeight: FontWeight.bold
                                                   ),
-                                                )
+                                                ),
                                               ],
                                             ),
-                                          ),
+                                          )
                                         ],
                                       ),
                                     ),
-                                    Positioned(
-                                      right: 10,
-                                      child: LikeButtonWidget(
-                                        isLiked: false,  //todo : needed to check
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),
@@ -589,134 +495,126 @@ class _StreamerContainerState extends State<StreamerContainer> {
                       elevation: 3,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(20),
-                        onTap: () { 
+                        onTap: () {
+                          ProductScreenRequired productScreenRequired = ProductScreenRequired(
+                              productName: snapshot.data![index].productName,
+                              categoryType: snapshot.data![index].categoryType,
+                              brandName: snapshot.data![index].brandName);
                           Navigator.push(context, MaterialPageRoute(builder: (context )=>ProductScreen(
-                            productContainerData: snapshot.data![index],
+                            productScreenReq: productScreenRequired,
                           )));
                         },
                         splashColor: KColor9,
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20)),
-                          child: Stack(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Positioned.fill(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Image.network(
-                                        snapshot.data![index].imageBanner,
-                                        fit: BoxFit.fill,
-                                        frameBuilder: (context, child, val, d) {
-                                          if (val == null)
-                                            return ShimmerLoader(
-                                                text: 'loading..');
-                                          else
-                                            return child;
-                                        },
-                                        loadingBuilder:
-                                            (context, child, chunk) {
-                                          if (chunk != null)
-                                            return ShimmerLoader(
-                                                text: 'loading..');
-                                          else
-                                            return child;
-                                        },
-                                        errorBuilder:
-                                            (context, object, stackTree) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Shimmer(
-                                              child: Container(
-                                                height: 120,
-                                                width: double.maxFinite,
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      Colors.blueGrey.shade100,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    'unAvailable',
-                                                    style: TextStyle(
-                                                        fontFamily: 'Axiforma',
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                              ),
+                              Expanded(
+                                child: Image.network(
+                                  snapshot.data![index].imageBanner,
+                                  fit: BoxFit.fill,
+                                  frameBuilder: (context, child, val, d) {
+                                    if (val == null)
+                                      return ShimmerLoader(
+                                          text: 'loading..');
+                                    else
+                                      return child;
+                                  },
+                                  loadingBuilder:
+                                      (context, child, chunk) {
+                                    if (chunk != null)
+                                      return ShimmerLoader(
+                                          text: 'loading..');
+                                    else
+                                      return child;
+                                  },
+                                  errorBuilder:
+                                      (context, object, stackTree) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Shimmer(
+                                        child: Container(
+                                          height: 120,
+                                          width: double.maxFinite,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.blueGrey.shade100,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              'unAvailable',
+                                              style: TextStyle(
+                                                  fontFamily: 'Axiforma',
+                                                  color: Colors.white),
                                             ),
-                                          );
-                                        },
+                                          ),
+                                        ),
                                       ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      snapshot.data![index].productName +
+                                          ' ' +
+                                          'Shoes',
+                                      style: TextStyle(
+                                          color: KColor9,
+                                          fontFamily: 'Axiforma',
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    Expanded(
-                                      child: Column(
+                                    Text(
+                                      'Rs.' +
+                                          snapshot
+                                              .data![index].productPrice
+                                              .toString(),
+                                      style: TextStyle(
+                                          color: KColor9,
+                                          fontFamily: 'Axiforma',
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(top: 5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(
-                                            snapshot.data![index].productName +
-                                                ' ' +
-                                                'Shoes',
-                                            style: TextStyle(
-                                                color: KColor9,
-                                                fontFamily: 'Axiforma',
-                                                fontWeight: FontWeight.bold),
+                                          Row(
+                                            children: [
+                                              Icon(IconlyBold.star,
+                                                  color:
+                                                      Color(0xffFDCC0D)),
+                                              Text(
+                                                '${snapshot.data![index].productRating}',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600,
+                                                    fontSize: 14),
+                                              )
+                                            ],
                                           ),
                                           Text(
-                                            'Rs.' +
-                                                snapshot
-                                                    .data![index].productPrice
-                                                    .toString(),
+                                            '+' + snapshot.data![index].colorCount.toString() + ' ' + 'colors',
                                             style: TextStyle(
-                                                color: KColor9,
-                                                fontFamily: 'Axiforma',
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 5),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Icon(IconlyBold.star,
-                                                        color:
-                                                            Color(0xffFDCC0D)),
-                                                    Text(
-                                                      '${snapshot.data![index].productRating}',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 14),
-                                                    )
-                                                  ],
-                                                ),
-                                                Text(
-                                                  '+' + snapshot.data![index].colorCount.toString() + ' ' + 'colors',
-                                                  style: TextStyle(
-                                                    color: KColor8,
-                                                    //fontFamily: 'Axiforma',
-                                                    // fontWeight: FontWeight.bold
-                                                  ),
-                                                ),
-                                              ],
+                                              color: KColor8,
+                                              //fontFamily: 'Axiforma',
+                                              // fontWeight: FontWeight.bold
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
-                              Positioned(
-                                right: 10,
-                                child: LikeButtonWidget(
-                                  isLiked: isLiked,
-                                ),
-                              )
                             ],
                           ),
                         ),
@@ -728,6 +626,7 @@ class _StreamerContainerState extends State<StreamerContainer> {
             else return GridView.builder(
                 itemCount: 4,
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 15,

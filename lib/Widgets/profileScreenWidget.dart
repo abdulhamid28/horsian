@@ -23,7 +23,7 @@ List<InformationCard> ProfileWidgetList =[
       navigateTo:  PersonelInformationScreen()
   ),
   InformationCard(
-      iconData: IconlyBold.bag_2,
+      iconData: IconlyBold.buy,
       h1Tag: 'Orders',
       h2Tag: 'Shoes purchased',
       navigateTo:  OrdersScreen()

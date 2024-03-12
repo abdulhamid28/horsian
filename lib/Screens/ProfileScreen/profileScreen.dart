@@ -76,9 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           ProfileScreenFunctionality.walletAndOrders(
-                              walletPoints: snap.data!["Wallet_Points"],
-                              orderCount: snap.data!["Order_Counts"])
-
+                              walletPoints: snap.data!["User_Points"].toInt(),
+                              orderCount: snap.data!["Order_Count"].toInt())
                         ],
                       );
                     }else{
@@ -130,6 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     }
                   }
               ),
-            ));
+            ),
+    );
   }
 }

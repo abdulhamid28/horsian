@@ -2,8 +2,8 @@ import 'package:horsian/Functionality/productScreenFunctions.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class ProductScreen extends StatefulWidget {
-  ProductContainerData productContainerData;
-  ProductScreen({super.key , required this.productContainerData });
+  ProductScreenRequired productScreenReq;
+  ProductScreen({super.key , required this.productScreenReq });
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -15,24 +15,45 @@ class _ProductScreenState extends State<ProductScreen> {
   int amountPay = 0;
   int currentSize=0;
   int quantity=1;
-
+  String colorName='';
+  bool isAddedToCart = false;
+  double  productRating = 0.0;
+  String productDescription1 = '';
+  String productDescription2 = '';
+  String descriptionImage = '';
+  bool currentColorStock =true ;
   late PageController pageController;
+  
+  getInnerRequired() async {
+     DocumentSnapshot<Map<String, dynamic>> value = await firebaseFirestore
+        .collection('ShoesCollection')
+        .doc(widget.productScreenReq.brandName)
+        .collection(widget.productScreenReq.categoryType)
+        .doc(widget.productScreenReq.productName).get();
+     setState(() {
+      productRating =  value.data()!['Product_Rating'];
+      productDescription2 = value.data()!['Product_Description_H2'];
+      productDescription1 = value.data()!['Product_Description_H1'];
+      descriptionImage = value.data()!['Product_Description_Image'];
+     });
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
     pageController = PageController();
+    getInnerRequired();
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     pageController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     Size size = MediaQuery.of(context).size;
     AppBar appBar = AppBar(
       elevation: 0,
@@ -45,10 +66,15 @@ class _ProductScreenState extends State<ProductScreen> {
           )),
       title: Align(
         alignment: Alignment.bottomRight,
-        child: Icon(
-          IconlyBold.bag,
-          size: 30,
-          color: KColor9,
+        child: GestureDetector(
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CartScreen()));
+          },
+          child: Icon(
+            IconlyBold.bag,
+            size: 30,
+            color:KColor5,
+          ),
         ),
       ),
       backgroundColor: Colors.white,
@@ -59,13 +85,16 @@ class _ProductScreenState extends State<ProductScreen> {
       backgroundColor: Colors.white,
       body: StreamBuilder(
           stream: ProductScreenFunctionality.getProducts(
-              brandName: widget.productContainerData.brandName,
-              categoryType: widget.productContainerData.categoryType,
-              productName: widget.productContainerData.productName
+              brandName: widget.productScreenReq.brandName,
+              categoryType: widget.productScreenReq.categoryType,
+              productName: widget.productScreenReq.productName
           ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               amountPay= snapshot.data!.docs[currentColor]['Product_Price'];
+              colorName = snapshot.data!.docs[currentColor]['Product_Color'];
+              currentColorStock = ProductScreenFunctionality.stockCheck(
+                  productSizeList:snapshot.data!.docs[currentColor]['Product_Size']);
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -84,22 +113,20 @@ class _ProductScreenState extends State<ProductScreen> {
                                 Expanded(
                                   flex: 2,
                                   child: Padding(
-                                    padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+                                    padding: const EdgeInsets.fromLTRB(10, 10, 0, 10),
                                     child: Column(
                                         children: List.generate(snapshot.data!.docs[currentColor]['Product_Angle'].length,
                                             (index) => GestureDetector(
                                                   onTap: () {
-                                                    pageController.animateToPage(currentAngle, curve: Curves.easeIn,
-                                                            duration: Duration(milliseconds: 400));
-                                                    setState(() {
-                                                      currentAngle = index;
-                                                    });
+                                                    pageController.animateToPage(currentAngle,
+                                                        curve: Curves.easeIn,
+                                                        duration: const Duration(milliseconds: 400));
+                                                    setState(() =>currentAngle = index);
                                                   },
                                                   child: AngleContainer(
                                                     isShimmer: false,
                                                     imgUrl: snapshot.data!.docs[currentColor]['Product_Angle'][index],
-                                                    isFocused:
-                                                        (index == currentAngle) ? true : false,
+                                                    isFocused: (index == currentAngle) ? true : false,
                                                   ),
                                                 ),
                                         ).toList()),
@@ -108,23 +135,35 @@ class _ProductScreenState extends State<ProductScreen> {
                                 Expanded(
                                   flex: 7,
                                   child: PageView.builder(
-                                    onPageChanged: (page) {
-                                      setState(() {
-                                        currentAngle = page;
-                                      });
-                                    },
+                                    onPageChanged: (page)=>setState(() => currentAngle = page),
                                     controller: pageController,
                                     scrollDirection: Axis.horizontal,
                                     itemCount: snapshot.data!.docs[currentColor]['Product_Angle'].length,
                                     itemBuilder: (context, index) => Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child:Image.network(
-                                        snapshot.data!.docs[currentColor]['Product_Angle'][currentAngle],
-                                        fit: BoxFit.fill,
-                                        loadingBuilder: (context, child , chunk){
-                                          if(chunk!=null) return Center(child: CircularProgressIndicator(color: KColor9, strokeWidth: 5));
-                                          else return child;
-                                        },
+                                      child:Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            child: Image.network(
+                                              snapshot.data!.docs[currentColor]['Product_Angle'][currentAngle],
+                                              fit: BoxFit.fill,
+                                              loadingBuilder: (context, child , chunk){
+                                                if(chunk!=null) return Center(child: CircularProgressIndicator(color: KColor9, strokeWidth: 5));
+                                                else return child;
+                                              },
+                                            ),
+                                          ),
+                                          Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(colorName,
+                                                 style: TextStyle(
+                                                   color: Colors.blueGrey,
+                                                   fontFamily: 'Axiforma',
+                                                   fontWeight: FontWeight.bold
+                                                 ),
+                                              ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -141,7 +180,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   children: [
                                     Expanded(
                                       flex:4,
-                                      child: Text(widget.productContainerData.productName,
+                                      child: Text(widget.productScreenReq.productName,
                                         maxLines: 2,
                                         style: TextStyle(
                                           fontSize: 20,
@@ -155,7 +194,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       child: Row(
                                         children: [
                                           Icon(IconlyBold.star, color: Color(0xffFDCC0D)),
-                                          Text(' ${widget.productContainerData.productRating}',
+                                          Text(productRating.toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               height: 1.4,
@@ -172,10 +211,10 @@ class _ProductScreenState extends State<ProductScreen> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20,0,0,0),
                             child: Container(
-                                color: Colors.green,
+                                color: (currentColorStock) ?Colors.green : Colors.red[800],
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 4 , vertical: 0),
-                                child: Text('Instock',
+                                child: Text((currentColorStock) ? 'Instock' : 'Out of stock',
                                   style: TextStyle(
                                       fontFamily: 'Axiforma',
                                       color: Colors.white,
@@ -197,7 +236,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold, fontFamily: 'Axiforma'
                                           ),
-                                    ),
+                                      ),
                                   ),
                                   Expanded(
                                       flex: 4,
@@ -219,7 +258,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                                       child: InkWell(
                                                         onTap: (){
                                                            setState(() {
+                                                             currentColorStock;
                                                              currentAngle=0;
+                                                             currentSize=0;
                                                              currentColor= colorIndex;
                                                            });
                                                         },
@@ -231,12 +272,15 @@ class _ProductScreenState extends State<ProductScreen> {
                                                             borderRadius: BorderRadius.circular(20),
                                                             border: (colorIndex==currentColor)? Border.all(): null
                                                           ),
-                                                          child: Image.network(
-                                                            snapshot.data!.docs[colorIndex]['Product_Angle'][0],
-                                                            loadingBuilder: (context , child , chunk){
-                                                              if(chunk!=null)return Center(child: CircularProgressIndicator(color: KColor9, strokeWidth: 5));
-                                                              else return child;
-                                                            },
+                                                          child: ClipRRect(
+                                                            borderRadius: BorderRadius.circular(20),
+                                                            child: Image.network(
+                                                              snapshot.data!.docs[colorIndex]['Product_Angle'][0],
+                                                              loadingBuilder: (context , child , chunk){
+                                                                if(chunk!=null)return Center(child: CircularProgressIndicator(color: KColor9, strokeWidth: 5));
+                                                                else return child;
+                                                              },
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
@@ -388,7 +432,8 @@ class _ProductScreenState extends State<ProductScreen> {
                                     color: KColor9,
                                     child: GestureDetector(
                                       onTap: (){
-                                        if(quantity<10) setState(() => quantity++);
+                                        if(quantity<10 && quantity<snapshot.data!.docs[currentColor]['Product_Size'][currentSize-6])
+                                          setState(() => quantity++);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
@@ -419,7 +464,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                   Row(
                                     children: [
                                       Expanded(
-                                          child: Text(widget.productContainerData.productDescription1,textAlign: TextAlign.center,
+                                          child: Text(productDescription1,
                                               style: TextStyle(
                                                 color: KColor9,fontFamily: 'Axiforma',height: 1,fontWeight: FontWeight.bold, fontSize: 15
                                               ),
@@ -427,18 +472,25 @@ class _ProductScreenState extends State<ProductScreen> {
                                       ),
                                       Expanded(child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: ClipRRect(
+                                        child: (descriptionImage=='') ? CircularProgressIndicator(
+                                          color: KColor9,strokeWidth: 5,
+                                        ): ClipRRect(
                                             borderRadius: BorderRadius.circular(20),
-                                            child: Image.network(widget.productContainerData.productDescriptionImage,
+                                            child: Image.network(
+                                              descriptionImage,
                                             loadingBuilder: (context , child , chunk){
-                                              if(chunk!=null) return Center(child: CircularProgressIndicator());
+                                              if(chunk!=null) return Center(child: CircularProgressIndicator(
+                                                color: KColor9,
+                                                strokeWidth: 3,
+                                              ));
                                               else return child;
                                             },
                                             )),
                                       ))
                                     ],
                                   ),
-                                  Text(widget.productContainerData.productDescription2, textAlign: TextAlign.justify,
+                                  Text( productDescription2,
+                                    //widget.productContainerData.productDescription2, textAlign: TextAlign.justify,
                                     style: TextStyle(
                                       fontFamily: 'Axiforma',
 
@@ -530,14 +582,48 @@ class _ProductScreenState extends State<ProductScreen> {
                                       ),
                                     )
                                 )),
-                            Expanded(flex: 3, child: Container(
-                              height: double.maxFinite,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(topRight:  Radius.circular(20)),
-                                  color: KColor9
-                              ),
-                              child: Icon(IconlyBold.buy, size: 40,color: Colors.white,),
-                            ))
+                            Expanded(flex: 3,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  if(!isAddedToCart && currentSize!=0 ){
+                                    await ProductScreenFunctionality.addToCart(
+                                        productScreenRequired: widget.productScreenReq,
+                                        productQuantity: quantity,
+                                        imageBanner: snapshot.data!.docs[currentColor]['Product_Angle'][0],
+                                        productPrice: snapshot.data!.docs[currentColor]['Product_Price'] ,
+                                        productColor: colorName,
+                                        productSize: currentSize);
+                                    setState(() {
+                                      isAddedToCart=true;
+                                    });
+                                  }else if(isAddedToCart){
+                                    Toast.show('Already in cart !', backgroundColor: KColor9 ,duration: 2);
+                                  }
+                                  else{
+                                    Toast.show('Size not mentioned !', backgroundColor: KColor9 ,duration: 2);
+                                  }
+                                },
+                                child: Container(
+                                height: double.maxFinite,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(topRight:  Radius.circular(20)),
+                                    color: KColor9
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(IconlyBold.buy, size: 40,color: Colors.white,),
+                                    Text( (isAddedToCart)? 'Added':'Add to cart',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Axiforma',
+                                          fontSize: 10,fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                                            ),
+                              ))
                           ],
                         ),
                       ),
@@ -624,15 +710,18 @@ class AngleContainer extends StatelessWidget {
                   : null),
           child: (isShimmer)
               ? Container()
-              : Image.network(
-                  imgUrl,
-                  fit: BoxFit.fill,
-                  loadingBuilder: (context, child , chunk){
-                    if(chunk!=null) return Center(child: CircularProgressIndicator(color: KColor9, strokeWidth: 5));
-                    else return child;
+              : ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                    imgUrl,
+                    fit: BoxFit.fill,
+                    loadingBuilder: (context, child , chunk){
+                      if(chunk!=null) return Center(child: CircularProgressIndicator(color: KColor9, strokeWidth: 5));
+                      else return child;
 
-                  },
-                ),
+                    },
+                  ),
+              ),
         ),
       ),
     );

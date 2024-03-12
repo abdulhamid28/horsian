@@ -64,7 +64,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         if (snapshot.hasData) {
           List OrderCurrentList = snapshot.data!['Order_Current'];
           List OrderHistoryList = snapshot.data!['Order_History'];
-          if (!OrderCurrentList.isEmpty && OrderHistoryList.isEmpty)
+          if (OrderCurrentList.isEmpty && OrderHistoryList.isEmpty)
             return SizedBox(
               width: double.maxFinite,
               height: size.height -
@@ -129,142 +129,164 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       physics: ScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: 1,
+                      itemCount: OrderCurrentList.length,
                       //OrderCurrentList.length,
                       itemBuilder: (context, index) {
-                        return Material(
-                          elevation: 5,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25),
-                              bottomRight: Radius.circular(25)),
-                          color: Colors.white,
-                          child: Container(
-                            height: 140,
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(25),
-                                  bottomRight: Radius.circular(25)),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 5,
-                                  child: Stack(
-                                    children: [
-                                      Center(
-                                        child: Image.asset(
-                                          'asset/images/nike shoe 1.png',
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                      Center(
-                                          child: Icon(
-                                        IconlyBold.bag_2,
-                                        size: 80,
-                                        color: Colors.orangeAccent
-                                            .withOpacity(0.5),
-                                      )),
-                                      Center(
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 15.0),
-                                          child: Text(
-                                            "Purchased",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Axiforma',
-                                                fontSize: 9),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                    flex: 8,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Shimmer(
-                                          colorOpacity: 0.6,
-                                          color: Colors.white,
-                                          child: Material(
-                                            elevation: 3,
-                                            color: Colors.red[900],
-                                            child: Container(
-                                              height: 35,
-                                              width: double.maxFinite,
-                                              decoration: BoxDecoration(
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'ORDER ID ',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontFamily: 'Axiforma'),
-                                                  ),
-                                                  Text(
-                                                    " #46457",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.w900,
-                                                        fontFamily: 'Axiforma'),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'NIKE SPECTRE',
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontFamily: 'Axiforma',
-                                              color: KColor9,
-                                              letterSpacing: 1.5,
-                                              fontWeight: FontWeight.w900),
-                                        ),
-                                        Text(
-                                          'Size ' + '10',
-                                          style: TextStyle(
-                                              fontSize: 12,fontFamily: 'Axiforma',
-                                              height: .8, color: Colors.blueGrey),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom :10.0),
+                          child: Material(
+                            elevation: 5,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(25),
+                                bottomRight: Radius.circular(25)),
+                            color: Colors.white,
+                            child: Container(
+                              height: 140,
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25),
+                                    bottomRight: Radius.circular(25)),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 5,
+                                    child: GestureDetector(
+                                      onTap:(){
+                                        Navigator.of(context).push(MaterialPageRoute(builder:(context)=>
+                                            ProductScreen(
+                                                productScreenReq: ProductScreenRequired(
+                                                    productName: OrderCurrentList[index]['Product_Name'],
+                                                    categoryType: OrderCurrentList[index]['Product_Category'],
+                                                    brandName: OrderCurrentList[index]['Product_Brand']))));
+                                      },
+                                      child: Container(
+                                        child: Stack(
                                           children: [
-                                            Text(
-                                              'Status: ',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontFamily: 'Axiforma',
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w700),
+                                            Center(
+                                              child: Image.network(
+                                               OrderCurrentList[index]['Product_Banner'],
+                                                loadingBuilder: (context,child,chunk){
+                                                 if(chunk!=null){
+                                                   return CircularProgressIndicator(
+                                                     color: KColor9,
+                                                   );
+                                                 }else return child;
+                                                } ,
+                                                fit: BoxFit.fill,
+                                              ),
                                             ),
-                                            Text(
-                                              'Dispactched',
-                                              style: GoogleFonts.anton(
-                                                  textStyle: TextStyle(
-                                                      color: Colors.green)),
-                                            ),
+                                            Center(
+                                                child: Icon(
+                                              IconlyBold.bag_2,
+                                              size: 80,
+                                              color: Colors.orangeAccent
+                                                  .withOpacity(0.5),
+                                            )),
+                                            Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.only(top: 15.0),
+                                                child: Text(
+                                                  "Purchased",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: 'Axiforma',
+                                                      fontSize: 9),
+                                                ),
+                                              ),
+                                            )
                                           ],
                                         ),
-                                      ],
-                                    )),
-                              ],
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      flex: 8,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Shimmer(
+                                            colorOpacity: 0.6,
+                                            color: Colors.white,
+                                            child: Material(
+                                              elevation: 3,
+                                              color: Colors.red[900],
+                                              child: Container(
+                                                height: 35,
+                                                width: double.maxFinite,
+                                                decoration: BoxDecoration(
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'ORDER ID ',
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily: 'Axiforma'),
+                                                    ),
+                                                    Text(
+                                                    OrderCurrentList[index]['Product_ID'].toString().substring(0,6),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w900,
+                                                          fontFamily: 'Axiforma'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            OrderCurrentList[index]['Product_Name'],
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontFamily: 'Axiforma',
+                                                color: KColor9,
+                                                letterSpacing: 1.5,
+                                                fontWeight: FontWeight.w900),
+                                          ),
+                                          Text(
+                                            'Size :' + '${OrderCurrentList[index]['Product_Size']}',
+                                            style: TextStyle(
+                                                fontSize: 12,fontFamily: 'Axiforma',
+                                                height: .8, color: Colors.blueGrey),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Status: ',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontFamily: 'Axiforma',
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w700),
+                                              ),
+                                              Text(
+                                                OrderCurrentList[index]['Order_Status'],
+                                                style: GoogleFonts.anton(
+                                                    textStyle: TextStyle(
+                                                        color: Colors.green)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )),
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -284,7 +306,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           height: 1),
                     ),
                     SizedBox(height: 5),
-                    (OrderCurrentList.length == 0)
+                    (snapshot.data!['Order_History'].length == 0)
                         ? Text(
                             'No History of purchase',
                             textAlign: TextAlign.center,
@@ -299,7 +321,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       physics: ScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: OrderHistoryList.length,
+                      itemCount: snapshot.data!['Order_History'].length,
                       itemBuilder: (context, index) {
                         return Container(
                           color: Colors.red,

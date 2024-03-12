@@ -11,28 +11,31 @@ class BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<CustomProviderClass>(
-        builder: (context, value, child) => Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: AppBar(
-              elevation: 0,
-              toolbarHeight: 0,
-              systemOverlayStyle: SystemUiOverlayStyle.dark,
-            ),
-            backgroundColor: Colors.white,
-            body: SafeArea(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                (bottomBarWidgetList[value.getScreen()].screenName !=
-                            Screen.profileScreen &&
-                        (bottomBarWidgetList[value.getScreen()].screenName !=
-                            Screen.brandScreen))
-                    ? HeaderCard(controller: value)
-                    : const SizedBox(),
-                DisplayScreen(controller: value),
-                BottomBar(controller: value),
-              ],
-            ))));
+      builder: (context, value, child) => Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          elevation: 0,
+          toolbarHeight: 0,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              (bottomBarWidgetList[value.getScreen()].screenName !=
+                          Screen.profileScreen &&
+                      (bottomBarWidgetList[value.getScreen()].screenName !=
+                          Screen.brandScreen))
+                  ? HeaderCard(controller: value)
+                  : const SizedBox(),
+              DisplayScreen(controller: value),
+              BottomBar(controller: value),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Expanded HeaderCard({required CustomProviderClass controller}) {
@@ -67,66 +70,67 @@ class BaseScreenState extends State<BaseScreen> {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: GestureDetector(
-                onTap: () {
-                  final cont = context.read<CustomProviderClass>();
-                  cont.changeScreen(4);
-                },
-                child: Stack(children: [
-                  Center(
-                    child: Container(
-                        color: Colors.white,
-                        child: Icon(bottomBarWidgetList[4].bottomBarIcon,
-                            size: 45, color: KColor5)),
-                  ),
-                  Positioned(
-                    top: 30,
-                    left: 40,
-                    child: Material(
-                      borderRadius: BorderRadius.circular(25),
-                      elevation: 5,
-                      child: Container(
-                        height: 25,
-                        width: 25,
-                        decoration: BoxDecoration(
-                            color: KColor9,
-                            borderRadius: BorderRadius.circular(25)),
-                        child: Center(
-                          child: StreamBuilder(
-                              stream: BaseScreenFunctionality
-                                  .getStreamOfCartScreenCount(),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  return Text(
-                                    snapshot.data!['User_Cart'].length
-                                        .toString(),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 11,
-                                      //  fontFamily: 'Axiforma'
-                                    ),
-                                  );
-                                } else
-                                  return CircularProgressIndicator(
-                                    color: KColor9,
-                                    strokeWidth: 5,
-                                  );
-                                //   Text('0' , style: TextStyle(
-                                // color: Colors.white,
-                                // fontWeight: FontWeight.bold,
-                                // fontSize: 11,
-                                // //  fontFamily: 'Axiforma'
-                                // ),);
-                              }),
-                        ),
-                      ),
-                    ),
-                  )
-                ])),
-          )
+          // Expanded(
+          //   flex: 2,
+          //   child: GestureDetector(
+          //       onTap: () {
+          //         // final cont = context.read<CustomProviderClass>();
+          //         // cont.changeScreen(4);
+          //         Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CartScreen()));
+          //       },
+          //       child: Stack(children: [
+          //         Center(
+          //           child: Container(
+          //               color: Colors.red,
+          //               child: Icon(bottomBarWidgetList[4].bottomBarIcon,
+          //                   size: 45, color: KColor5)),
+          //         ),
+          //         Positioned(
+          //           top: 30,
+          //           left: 40,
+          //           child: Material(
+          //             borderRadius: BorderRadius.circular(25),
+          //             elevation: 5,
+          //             child: Container(
+          //               height: 25,
+          //               width: 25,
+          //               decoration: BoxDecoration(
+          //                   color: KColor9,
+          //                   borderRadius: BorderRadius.circular(25)),
+          //               child: Center(
+          //                 child: StreamBuilder(
+          //                     stream: BaseScreenFunctionality
+          //                         .getStreamOfCartScreenCount(),
+          //                     builder: (context, snapshot) {
+          //                       if (snapshot.hasData) {
+          //                         return Text(
+          //                           snapshot.data!['User_Cart'].length
+          //                               .toString(),
+          //                           style: TextStyle(
+          //                             color: Colors.white,
+          //                             fontWeight: FontWeight.bold,
+          //                             fontSize: 11,
+          //                             //  fontFamily: 'Axiforma'
+          //                           ),
+          //                         );
+          //                       } else
+          //                         return CircularProgressIndicator(
+          //                           color: KColor9,
+          //                           strokeWidth: 5,
+          //                         );
+          //                       //   Text('0' , style: TextStyle(
+          //                       // color: Colors.white,
+          //                       // fontWeight: FontWeight.bold,
+          //                       // fontSize: 11,
+          //                       // //  fontFamily: 'Axiforma'
+          //                       // ),);
+          //                     }),
+          //               ),
+          //             ),
+          //           ),
+          //         )
+          //       ])),
+          // )
         ],
       ),
     );
@@ -152,7 +156,8 @@ class BaseScreenState extends State<BaseScreen> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35),
-              color: KColor9.withOpacity(1)),
+              color: KColor9.withOpacity(1),
+          ),
           child: Padding(
               padding: const EdgeInsets.fromLTRB(18, 10, 18, 10),
               child: Row(
@@ -161,8 +166,12 @@ class BaseScreenState extends State<BaseScreen> {
                   (index) => Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        final cont = context.read<CustomProviderClass>();
-                        cont.changeScreen(index);
+                        if(bottomBarWidgetList[index].screenName == Screen.cartScreen) {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CartScreen()));
+                        }else {
+                          final cont = context.read<CustomProviderClass>();
+                          cont.changeScreen(index);
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,

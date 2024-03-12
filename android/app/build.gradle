@@ -25,6 +25,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.horsian"
+  //  namespace 'com.flutter.stripe.example'
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 

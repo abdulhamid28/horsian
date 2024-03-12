@@ -100,7 +100,7 @@ class AddressScreenFunctionality {
                 'Pincode': pincode,
                 'State_Name': stateName,
                 'Country_Name': countryName,
-                'Address_Id': new DateTime.timestamp().toString()
+                'Address_Id': uuid.v1()
               }
             ],
           ),
