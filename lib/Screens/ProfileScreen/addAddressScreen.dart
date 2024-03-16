@@ -1,9 +1,7 @@
 import 'package:horsian/Resources/exports.dart';
 class AddAddressScreen extends StatefulWidget {
-
   bool isEditAddressTriggered ;
   String addressId ;
-
   AddAddressScreen({ required this.addressId, required this.isEditAddressTriggered});
 
   @override

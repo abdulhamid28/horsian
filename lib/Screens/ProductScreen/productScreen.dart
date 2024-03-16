@@ -1,4 +1,4 @@
-import 'package:horsian/Functionality/productScreenFunctions.dart';
+import 'package:horsian/Functionality/ProductScreenFunctionality/productScreenFunctions.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -349,10 +349,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                                       borderRadius: BorderRadius.circular(20),
                                                       child: GestureDetector(
                                                         onTap: (){
-                                                          if(availableSizeCount>0)
-                                                          setState(() {
-                                                            currentSize= sizeIndex+6;
-                                                          });
+                                                          if(availableSizeCount>0) setState(()=> currentSize= sizeIndex+6);
                                                         },
                                                         child: Container(
                                                           width: 80,
@@ -432,8 +429,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                     color: KColor9,
                                     child: GestureDetector(
                                       onTap: (){
-                                        if(quantity<10 && quantity<snapshot.data!.docs[currentColor]['Product_Size'][currentSize-6])
+                                        if(quantity<10 && currentSize!=0 && quantity<snapshot.data!.docs[currentColor]['Product_Size'][currentSize-6])
                                           setState(() => quantity++);
+                                        else if(currentSize==0){
+                                          Toast.show('Size not mentioned !', backgroundColor: KColor9 ,duration: 2);
+                                        }
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),

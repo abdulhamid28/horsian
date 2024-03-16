@@ -18,7 +18,8 @@ export 'package:flutter_rating_bar/flutter_rating_bar.dart';
 export 'package:easy_stepper/easy_stepper.dart' ;
 export 'package:uuid/uuid.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
-
+export 'package:firebase_messaging/firebase_messaging.dart';
+export 'package:app_settings/app_settings.dart';
 
 
 
@@ -39,22 +40,21 @@ export 'package:horsian/Screens/ProfileScreen/changePasswordScreen.dart';
 export 'package:horsian/Screens/ProfileScreen/personelScreen.dart';
 export 'package:horsian/Screens/ProfileScreen/ordersScreen.dart';
 export 'package:horsian/Screens/BrandScreen/brandScreen.dart';
-export 'package:horsian/Functionality/baseScreenFunctions.dart';
+export 'package:horsian/Functionality/BaseScreenFunctionality/baseScreenFunctions.dart';
 export 'package:horsian/Screens/ProductScreen/productScreen.dart';
 
 
 //TODO: Functionalities related libraries
-export 'package:horsian/Functionality/redirectingFunctions.dart';
-export 'package:horsian/Functionality/loginScreenFunctions.dart';
-export 'package:horsian/Functionality/signupScreenFunctions.dart';
-export 'package:horsian/Functionality/homeScreenFunctions.dart';
-export 'package:horsian/Functionality/profileScreenFunctions.dart';
-export 'package:horsian/Functionality/addressScreenFunctions.dart';
+export 'package:horsian/Functionality/AuthenticationFunctionality/loginScreenFunctions.dart';
+export 'package:horsian/Functionality/AuthenticationFunctionality/signupScreenFunctions.dart';
+export 'package:horsian/Functionality/HomeScreenFunctionality/homeScreenFunctions.dart';
+export 'package:horsian/Functionality/PersonelScreenFunctionality/profileScreenFunctions.dart';
+export 'package:horsian/Functionality/PersonelScreenFunctionality/addressScreenFunctions.dart';
 export 'package:horsian/Functionality/rootClass.dart';
-export 'package:horsian/Functionality/brandScreenFunctions.dart';
-export 'package:horsian/Functionality/cartScreenFunctions.dart';
-export 'package:horsian/Functionality/productScreenFunctions.dart';
-
+export 'package:horsian/Functionality/BrandScreenFunctionality/brandScreenFunctions.dart';
+export 'package:horsian/Functionality/CartScreenFunctionality/cartScreenFunctions.dart';
+export 'package:horsian/Functionality/ProductScreenFunctionality/productScreenFunctions.dart';
+export 'package:horsian/Messaging/notifcationService.dart';
 
 //TODO: Statemanagement related libraries
 export 'package:horsian/Controller/providerClass.dart';

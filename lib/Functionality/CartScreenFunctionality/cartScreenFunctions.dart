@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 enum IncreaseDecrease{
   Increase , decrease
@@ -11,13 +12,13 @@ class CartScreenFunctionality{
 
 
   static Stream<DocumentSnapshot<Map<String, dynamic>>> getCart()=>
-      firebaseFirestore.collection('UsersCollection').doc(firebaseAuth.currentUser!.email).snapshots();
+      firebaseFirestore.collection(USER_COLLECTION).doc(firebaseAuth.currentUser!.email).snapshots();
 
 
   void deleteCart({required String productId}) async {
     try{
       final collectionPath = firebaseFirestore
-          .collection('UsersCollection')
+          .collection(USER_COLLECTION)
           .doc(firebaseAuth.currentUser!.email);
       final collection = await collectionPath.get();
       List listOfCart = collection['User_Cart'];
@@ -37,7 +38,7 @@ class CartScreenFunctionality{
 
   Future<void> increaseQuantityCart({required IncreaseDecrease val , required productId}) async {
     try {
-      final collectionPath = firebaseFirestore.collection('UsersCollection')
+      final collectionPath = firebaseFirestore.collection(USER_COLLECTION)
           .doc(firebaseAuth.currentUser!.email);
       final collection = await collectionPath.get();
       List listOfCart = collection['User_Cart'];
@@ -77,7 +78,7 @@ class CartScreenFunctionality{
   static Future<void> emptyUserCart() async {
     try{
         final collectionPath = firebaseFirestore
-            .collection('UsersCollection')
+            .collection(USER_COLLECTION)
             .doc(firebaseAuth.currentUser!.email);
         await collectionPath.update(
           {
@@ -92,7 +93,7 @@ class CartScreenFunctionality{
   static updateOrder() async {
     try{
       final collectionPath = firebaseFirestore
-          .collection('UsersCollection')
+          .collection(USER_COLLECTION)
           .doc(firebaseAuth.currentUser!.email);
       final collection = await collectionPath.get();
       var listOfCart = collection['User_Cart'];
@@ -136,7 +137,7 @@ class CartScreenFunctionality{
       for(int i=0;i<userCart.length;i++){
         String color = findColorName(productColor: userCart[i]['Product_Color']);
         final collectionPath =  firebaseFirestore
-            .collection('ShoesCollection')
+            .collection(SHOE_COLLECTION)
             .doc(userCart[i]['Product_Brand'])
             .collection(userCart[i]['Product_Category'])
             .doc(userCart[i]['Product_Name'])

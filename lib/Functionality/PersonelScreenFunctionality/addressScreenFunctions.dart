@@ -1,5 +1,7 @@
 import 'package:horsian/Resources/exports.dart';
 
+import '../../Resources/constants.dart';
+
 class AddressScreenFunctionality {
 
   static bool validateAddress({required String recieverName,
@@ -30,7 +32,7 @@ class AddressScreenFunctionality {
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getStoredAddress() {
     return firebaseFirestore
-        .collection('UsersCollection')
+        .collection(USER_COLLECTION)
         .doc(firebaseAuth.currentUser!.email)
         .snapshots(); // todo :
   }
@@ -38,7 +40,7 @@ class AddressScreenFunctionality {
   void deleteStoredAddress({required String addressId}) async {
     try {
       final collectionPath = firebaseFirestore
-          .collection('UsersCollection')
+          .collection(USER_COLLECTION)
           .doc(firebaseAuth.currentUser!.email); // todo :
       final collection = await collectionPath.get();
       List listOfAddress = collection['List_Address'];
@@ -72,7 +74,7 @@ class AddressScreenFunctionality {
   }) async {
     try {
       final collectionPath = firebaseFirestore
-          .collection('UsersCollection')
+          .collection(USER_COLLECTION)
           .doc(firebaseAuth.currentUser!.email); // todo :
       final collection = await collectionPath.get();
       List listOfAddress = collection['List_Address'];
@@ -127,7 +129,7 @@ class AddressScreenFunctionality {
   }) {
     try {
       final collectionPath = firebaseFirestore
-          .collection('UsersCollection')
+          .collection(USER_COLLECTION)
           .doc(firebaseAuth.currentUser!.email);
       collectionPath.update(
         {
@@ -163,7 +165,7 @@ class AddressScreenFunctionality {
 
   //todo
   static  Future<DocumentSnapshot<Map<String, dynamic>>> getSpecificAddressData(){
-    return firebaseFirestore.collection('UsersCollection').doc(firebaseAuth.currentUser!.email).get();
+    return firebaseFirestore.collection(USER_COLLECTION).doc(firebaseAuth.currentUser!.email).get();
 
   }
 }

@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-
 import 'package:horsian/Resources/exports.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
@@ -8,9 +7,8 @@ import 'package:http/http.dart' as http;
 class StripePaymentGateway{
   static String uriPost = 'https://api.stripe.com/v1/payment_intents';
   static Stripe stripe = Stripe.instance;
-  static String calculateAmount(String amount){
-      return  (int.parse(amount)*100).toString();
-  }
+
+  static String calculateAmount(String amount) => (int.parse(amount)*100).toString();
   static createPaymentIntent({required String amount , required String currency}) async {
      try{
        Map<String,dynamic> body = {

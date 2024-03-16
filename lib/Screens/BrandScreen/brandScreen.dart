@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 enum Display {
@@ -19,7 +20,6 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
 
   FocusNode searchNode = FocusNode();
   TextEditingController searchController = TextEditingController();
-  //late VideoPlayerController videoPlayerController ;
   late AnimationController animationController;
 
   List<ProductContainerData> searchProduct = [];
@@ -31,13 +31,6 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
     animationController = AnimationController(
         vsync: this, upperBound: 0.3, duration: Duration(milliseconds: 100));
     super.initState();
-    // videoPlayerController = VideoPlayerController.networkUrl(
-    //     Uri.parse(
-    //         (widget.brand=='Brand_Adidas') ? HomeScreenFunctionality.popularBrandNameList[1].brandVideoLink:
-    //         HomeScreenFunctionality.popularBrandNameList[0].brandVideoLink  ))
-    //   ..initialize().then((value) {setState(() {});});
-    // videoPlayerController.play();
-    // videoPlayerController.setVolume(0);
   }
 
   callFunction() => animationController.forward(from: 0);
@@ -47,7 +40,6 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
     searchController.dispose();
     searchNode.dispose();
     animationController.dispose();
-    //videoPlayerController.dispose();
     super.dispose();
   }
 
@@ -143,27 +135,6 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric( horizontal:  0.0),
-                      //   child: ClipRRect(
-                      //    // borderRadius: BorderRadius.circular(20),
-                      //     child: GestureDetector(
-                      //       onTap: (){videoPlayerController.initialize();
-                      //         videoPlayerController.play();
-                      //         },
-                      //       child: SizedBox(
-                      //          height: 500,
-                      //          width: double.maxFinite,
-                      //         child: (!videoPlayerController.value.isInitialized) ?
-                      //           Image.asset(
-                      //               (widget.brand== 'Brand_Nike')?
-                      //               'asset/images/nike video image.png': 'asset/images/adidas video image.png',
-                      //               fit: BoxFit.fill) :
-                      //           VideoPlayer(videoPlayerController),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                         child: Text(
@@ -203,8 +174,8 @@ class _BrandScreenState extends State<BrandScreen> with TickerProviderStateMixin
                                       setState(() {
                                         searchController.text = '';
                                         searchProduct = BrandScreenFunctionality.searchByCategory(
-                                            category: (displayValue== Display.categoryRunning) ? 'FootWear_Running' :
-                                            (displayValue==Display.categorySneaker)? 'FootWear_Sneaker' :'FootWear_Walking',
+                                            category: (displayValue== Display.categoryRunning) ? CATEGORY_RUNNING :
+                                            (displayValue==Display.categorySneaker)? CATEGORY_SNEAKER :CATEGORY_WALKING,
                                             list: value.allProducts);
                                         if (isBannerNumber != displayValue) isBannerNumber = displayValue;
                                         else isBannerNumber = Display.allProduct;

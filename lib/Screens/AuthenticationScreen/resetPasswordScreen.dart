@@ -1,4 +1,4 @@
-import 'package:horsian/Functionality/resetPasswordScreenFunctions.dart';
+import 'package:horsian/Functionality/AuthenticationFunctionality/resetPasswordScreenFunctions.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class ResetPasswordScreen extends StatefulWidget {

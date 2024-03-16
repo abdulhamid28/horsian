@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 
@@ -6,13 +7,6 @@ enum UserLoginMethod{
 }
 
 class SignupScreenFunctionality{
-  // static FirebaseAuth firebaseAuth = FirebaseAuth.instance ;
-  // static FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance ;
-  // static UserCredential? userCredential ;
-  // static User? currentUser ;
-  // static UserLoginMethod? userLoginMethod ;
-  // static GoogleSignInAccount? googleSignInAccount ;
-
   static Future<UserCredential?> CreateUser({ required String email , required String password}) async {
     try{
       // TODO :creating account using emailID and password
@@ -29,7 +23,7 @@ class SignupScreenFunctionality{
     try{
       // TODO : storing user data to firebase database
       DocumentReference  ReferenceToDocumentId =
-      firebaseFirestore.collection('UsersCollection').doc(userCredential.user!.email) ;
+      firebaseFirestore.collection(USER_COLLECTION).doc(userCredential.user!.email) ;
 
       await ReferenceToDocumentId.set(
       {
@@ -48,12 +42,9 @@ class SignupScreenFunctionality{
         'Order_History' : []
       }
     );
-      //RedirectingFunctionality.setDataInLocalTrue();
-      //RedirectingFunctionality.createLocalDataForNativeProvider(email: userCredential.user!.email!, password: password);
       Toast.show('Signup successful !', backgroundColor: KColor9 ,duration: 2);
     return true ;
     } on FirebaseException {
-     // Toast.show('User data not stored!', backgroundColor: KColor9 ,duration: 2);
       return false;
     }
   }

@@ -1,14 +1,8 @@
 
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class ProfileScreenFunctionality {
-
-  // static final listOfScreen = [
-  //   AddressScreen(),
-  //   PersonelInformationScreen(),
-  //   OrdersScreen(),
-  //   ChangePasswordScreen(),
-  //   AddressScreen()];
 
   static Widget walletAndOrders({required int walletPoints , required int orderCount}) {return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15),
@@ -122,7 +116,7 @@ class ProfileScreenFunctionality {
   }
 
   static Stream<DocumentSnapshot<Map<String, dynamic>>> getProfileData(){
-    return firebaseFirestore.collection('UsersCollection').doc(firebaseAuth.currentUser!.email).snapshots();
+    return firebaseFirestore.collection(USER_COLLECTION).doc(firebaseAuth.currentUser!.email).snapshots();
   }
 
 
@@ -147,7 +141,6 @@ class ProfileWidget extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             if(index==4){
-              // RedirectingFunctionality.setDataInLocalFalse();
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
                   await  SignupScreenFunctionality.signOutUser();
             }else{

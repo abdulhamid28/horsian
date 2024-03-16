@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class ProductScreenFunctionality{
@@ -10,7 +11,7 @@ class ProductScreenFunctionality{
 
    static Stream<QuerySnapshot<Map<String, dynamic>>> getProducts({required brandName , required categoryType,required productName})  {
      return  firebaseFirestore
-            .collection('ShoesCollection')
+            .collection(SHOE_COLLECTION)
             .doc(brandName)
             .collection(categoryType)
             .doc(productName)
@@ -25,7 +26,7 @@ class ProductScreenFunctionality{
      required ProductScreenRequired productScreenRequired , required int productQuantity,
      required String imageBanner, required  int productPrice,
      required productColor, required productSize}) async {
-       DocumentReference documentReference = firebaseFirestore.collection('UsersCollection').doc(firebaseAuth.currentUser!.email);
+       DocumentReference documentReference = firebaseFirestore.collection(USER_COLLECTION).doc(firebaseAuth.currentUser!.email);
        await documentReference.update({
          'User_Cart': FieldValue.arrayUnion([
            {

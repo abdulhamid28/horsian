@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class ResetPasswordScreenFuntionality{
@@ -31,7 +32,7 @@ class ResetPasswordScreenFuntionality{
 
   static updateNewPasswordToDataBase(String newPassword) async {
     DocumentReference  ReferenceToDocumentId =
-    firebaseFirestore.collection('UsersCollection').doc(firebaseAuth.currentUser!.email) ;
+    firebaseFirestore.collection(USER_COLLECTION).doc(firebaseAuth.currentUser!.email) ;
     ReferenceToDocumentId.update({
       "User_Password" : newPassword
     });

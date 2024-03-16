@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 class TrendingWidget extends StatefulWidget {
   Size size ;
@@ -154,7 +155,7 @@ class _TrendingWidgetState extends State<TrendingWidget> {
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Image.asset(
-                        (brand == 'Brand_Adidas')? 'asset/images/adidas_logo.png':'asset/images/nike_logo.png' ,
+                        (brand == BRAND_ADIDAS)? 'asset/images/adidas_logo.png':'asset/images/nike_logo.png' ,
                         color: Colors.white,
                       ),
                     )),

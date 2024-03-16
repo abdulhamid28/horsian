@@ -1,3 +1,4 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 enum Screen{
@@ -23,8 +24,7 @@ class BottomBarWidget{
    BottomBarWidget(bottomBarIcon: IconlyLight.bag_2 ,screen: CartScreen(),screenName:Screen.cartScreen , lightText: 'My' , boldText: 'Cart'),
    BottomBarWidget(bottomBarIcon: IconlyLight.notification, screen: NotificationScreen(),screenName: Screen.notificationScreen , lightText: 'Deals' , boldText: 'Recommended'),
   BottomBarWidget(bottomBarIcon: IconlyLight.profile, screen: ProfileScreen(),screenName: Screen.profileScreen,lightText: '' , boldText: ''),
-  BottomBarWidget(bottomBarIcon: Icons.abc, screen: BrandScreen(brand: 'Brand_Adidas', ), screenName: Screen.brandScreen, boldText: '', lightText: ''),
-  BottomBarWidget(bottomBarIcon: Icons.abc, screen: BrandScreen(brand: 'Brand_Nike'), screenName: Screen.brandScreen, boldText: '', lightText: ''),
-
+  BottomBarWidget(bottomBarIcon: Icons.abc, screen: BrandScreen(brand: BRAND_ADIDAS, ), screenName: Screen.brandScreen, boldText: '', lightText: ''),
+  BottomBarWidget(bottomBarIcon: Icons.abc, screen: BrandScreen(brand: BRAND_NIKE), screenName: Screen.brandScreen, boldText: '', lightText: ''),
  ];
 

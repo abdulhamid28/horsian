@@ -1,15 +1,16 @@
+import 'package:horsian/Resources/constants.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class PersonelInformationScreenFunctionality{
 
   static Future<DocumentSnapshot<Map<String, dynamic>>>  get()  async {
-    return  firebaseFirestore.collection('UsersCollection').doc(firebaseAuth.currentUser!.email).get();
+    return  firebaseFirestore.collection(USER_COLLECTION).doc(firebaseAuth.currentUser!.email).get();
   }
 
   static updatePersonelDetails({required String name , required String contactNumber , required String sex}){
     try {
       DocumentReference ReferenceToDocumentId = firebaseFirestore.collection(
-          'UsersCollection').doc(firebaseAuth.currentUser!.email);
+          USER_COLLECTION).doc(firebaseAuth.currentUser!.email);
       ReferenceToDocumentId.update({
         "User_Name": name,
         "User_Gender": sex,

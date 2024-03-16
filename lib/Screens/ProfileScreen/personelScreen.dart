@@ -1,4 +1,4 @@
-import 'package:horsian/Functionality/personelScreenFunctions.dart';
+import 'package:horsian/Functionality/PersonelScreenFunctionality/personelScreenFunctions.dart';
 import 'package:horsian/Resources/exports.dart';
 
 class PersonelInformationScreen extends StatefulWidget {

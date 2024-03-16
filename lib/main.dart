@@ -9,6 +9,7 @@ Future<void> main() async {
   Platform.isAndroid ? await Firebase.initializeApp(options: firebaseOptions) : await Firebase.initializeApp()  ;
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.white,));
+  await NotificationServices.requestPermission();
   runApp(
   ChangeNotifierProvider(
       create: (context)=> CustomProviderClass(),

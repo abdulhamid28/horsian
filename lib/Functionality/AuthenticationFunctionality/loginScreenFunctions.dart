@@ -23,8 +23,6 @@ class LoginScreenFunctionality{
       userCredential = await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       Toast.show('Login successful', backgroundColor: KColor9, duration: 2);
-     //RedirectingFunctionality.setDataInLocalTrue();
-     // RedirectingFunctionality.createLocalDataForNativeProvider(email: email, password: password);
       return userCredential;
     } on FirebaseException catch (error) {
       Toast.show('${error.message}', backgroundColor: KColor9, duration: 2);
